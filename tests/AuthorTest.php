@@ -42,13 +42,13 @@
             $this->assertEquals($author_name, $result);
         }
 
-        function testGetAuthorId()
+        function testgetId()
         {
             $author_name = "Murakami";
             $id = 100;
             $test_author = new Author($author_name, $id);
 
-            $result = $test_author->GetAuthorId();
+            $result = $test_author->getId();
 
             $this->assertEquals(100, $result);
         }
@@ -107,8 +107,41 @@
 
             $test_author->update($new_name);
 
-            $this->assertEquals("Hemingway", $test_author->getName());
+            $this->assertEquals("Hemingway", $test_author->getAuthorName());
 
+        }
+
+        function testFind()
+        {
+            $author_name = "Murakami";
+            $id = 1;
+            $test_author = new Author($author_name, $id);
+            $test_author->save();
+
+            $author_name = "Linux";
+            $test_author2 = new Author($author_name);
+            $test_author2->save();
+
+            $result = Author::find($test_author->getId());
+
+            $this->assertEquals($test_author, $result);
+        }
+
+        function testDeleteOne() {
+            $author_name = "Murakami";
+            $id = 1;
+            $test_author = new Author($author_name, $id);
+            $test_author->save();
+
+            $author_name = "Linux";
+            $test_author2 = new Author($author_name);
+            $test_author2->save();
+
+            $test_author2->deleteOne();
+
+            $result = Author::getAll();
+
+            $this->assertEquals([$test_author], $result);
         }
     }
 

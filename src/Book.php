@@ -1,18 +1,18 @@
 <?php
     class Book
     {
-        private $book_id;
+        private $id;
         private $title;
 
-        function __construct($book_id, $title)
+        function __construct($title, $id = null)
         {
-            $this->book_id = $book_id;
+            $this->id = $id;
             $this->title = $title;
         }
 
-        function getBookId()
+        function getId()
         {
-            return $this->book_id;
+            return $this->id;
         }
 
         function setTitle($new_title)
@@ -27,32 +27,47 @@
 
         function save()
         {
-
+            $GLOBALS['DB']->exec("INSERT INTO books (title) VALUES ('{$this->getTitle()}');");
+            $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         static function getAll()
         {
+            $result_books = $GLOBALS['DB']->query("SELECT * FROM books;");
 
+            $all_books = array();
+            foreach($result_books as $book) {
+                $id = $book['id'];
+                $title = $book['title'];
+                $new_book = new Book($title, $id);
+                array_push($all_books, $new_book);
+            }
+            return $all_books;
         }
 
         static function find($searchId)
         {
-
+            $books = Book::getAll();
+            foreach($books as $book){
+                if($searchId = $book->getId()){
+                    return $book;
+                }
+            }
         }
 
         static function deleteAll()
         {
-
+            $GLOBALS['DB']->exec("DELETE FROM books;");
         }
 
-        static function update()
+        function update()
         {
-
+            $GLOBALS['DB']->exec("UPDATE books SET title = '{$this->getTitle()}' WHERE id = {$this->getId()};");
         }
 
-        function deleteOne($searchId)
+        function deleteOne()
         {
-
+            $GLOBALS['DB']->exec("DELETE FROM books WHERE id = {$this->getId()};");
         }
     }
 ?>

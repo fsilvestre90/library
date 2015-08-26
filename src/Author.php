@@ -11,7 +11,7 @@
             $this->author_name = $author_name;
         }
 
-        function getAuthorId()
+        function getId()
         {
             return $this->id;
         }
@@ -21,7 +21,7 @@
             return $this->author_name;
         }
 
-        function setAuthorId($newId)
+        function setId($newId)
         {
             $this->id = $newId;
         }
@@ -52,7 +52,12 @@
 
         static function find($searchId)
         {
-
+            $authors = Author::GetAll();
+            foreach($authors as $author) {
+                if ($searchId == $author->getId()) {
+                    return $author;
+                }
+            }
         }
 
         static function deleteAll()
@@ -60,15 +65,16 @@
             $GLOBALS['DB']->exec("DELETE FROM authors;");
         }
 
-        static function update($newAuthorName)
+        function update($newAuthorName)
         {
-            $GLOBALS['DB']->exec("UPDATE authors SET author_name = '{$newAuthorName}' WHERE id = {$this->getAuthorId()};");
+            $GLOBALS['DB']->exec("UPDATE authors SET author_name = $newAuthorName WHERE id = {$this->getId()};");
+            var_dump($newAuthorName);
             $this->setAuthorName($newAuthorName);
         }
 
-        function deleteOne($searchId)
+        function deleteOne()
         {
-
+            $GLOBALS['DB']->exec("DELETE FROM authors WHERE id = {$this->getId()};");
         }
 
     }
