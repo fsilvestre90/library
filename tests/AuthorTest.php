@@ -96,6 +96,20 @@
 
             $this->assertEquals([], $result);
         }
+
+        function testUpdate()
+        {
+            $author_name = "Murakami";
+            $id = 1;
+            $test_author = new Author($author_name, $id);
+            $test_author->save();
+            $new_name = "Hemingway";
+
+            $test_author->update($new_name);
+
+            $this->assertEquals("Hemingway", $test_author->getName());
+
+        }
     }
 
 

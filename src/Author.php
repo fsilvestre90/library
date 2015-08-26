@@ -62,7 +62,8 @@
 
         static function update($newAuthorName)
         {
-
+            $GLOBALS['DB']->exec("UPDATE authors SET author_name = '{$newAuthorName}' WHERE id = {$this->getAuthorId()};");
+            $this->setAuthorName($newAuthorName);
         }
 
         function deleteOne($searchId)
