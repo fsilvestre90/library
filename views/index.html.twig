@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Library</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class='container'>
+
+        <h1>Welcome!</h1>
+
+        <p>Enter a book:</p>
+        <form action='/books' method = 'post'>
+            <div class = 'form-group'>
+                <label for='title'></label>
+                <input id= 'title' class='form-control' placeholder='Book Title' name='title' type='text'>
+                <br>
+                <label for='author_name'></label>
+                <input id= 'author_name' class='form-control' placeholder='Author Name' name='author_name' type='text'>            
+                <button type='submit' class='btn-danger'>Add Book</button>
+            </div>
+        </form>
+
+
+        {% if books is not empty %}
+        <h2><p>Click on a book:</p><h2>
+                <h3><ul>
+                    {% for book in books %}
+                    <form action='/books/{{ book.getId }}' method='post'>
+                    <input name='_method' type='hidden' value='delete'>
+                    <li><h4><a href="/books/{{ book.getId }}">{{ book.getTitle }}</a>
+                        <a class="btn btn-danger" href="/books/{{ book.getId }}/edit" role="button">Edit or Delete</a>
+                    <form action='/books/{{ author.getId }}' method='post'>
+                    <input name='_method' type='hidden' value='delete'>
+                    <li><h4><a href="/books/{{ author.getId }}">{{ author.getAuthorName }}</a>
+                        <a class="btn btn-danger" href="/books/{{ author.getId }}/edit" role="button">Edit or Delete</a>
+
+                    {% endfor %}
+                </ul></h3>
+                <br>
+
+        {% else %}
+        <p>There are no books entered yet!</p>
+        {% endif %}
+
+    </body>
+</html>

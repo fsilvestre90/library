@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Library</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class='container'>
+            <h1>Add author(s) for {{ book.GetName }}</h1>
+
+            <p>Enter an author:</p>
+            <!--New authors Won't Save!! -->
+            <form action='/books' method='post'>
+                <input id='book_id' class='form-control' name="book_id" type="hidden" value="{{ book.getId()}}">
+                <div class ='form-group'>
+                    <label for='author_name'></label>
+                    <input id='author_name' class='form-control' placeholder='author Name' name='author_name' type='text'>
+                    <br>
+                    <button type='submit' class='btn btn-danger'>Add Author</button>
+                </div>
+            </form>
+            <a class="btn btn-danger" href="/" role="button">Home</a>
+
+            {% if authors is not empty %}
+                <p>Here are {{ book.GetName }}'s authors:</p>
+                <ul>
+                    {% for author in authors %}
+                        <li>{{ author.getAuthorName }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <br>
+            <br>
+            <form action='/delete_authors' method='post'>
+                <button type='submit' class='btn btn-danger'>Delete All Authors</button>
+        </div>
+        </form>
+    </body>
+</html>

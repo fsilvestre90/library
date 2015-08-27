@@ -35,5 +35,20 @@
 
             $this->assertEquals(5, $result);
         }
+
+        function testRemoveCopies()
+        {
+            $book_name = "Marakami";
+            $new_book = new Book($book_name);
+            $new_book->save();
+
+            Copies::setCopies($new_book, 8);
+
+            Copies::removeCopies($new_book, 5);
+
+            $result = Copies::getCopies($new_book);
+
+            $this->assertEquals(3, $result);
+        }
     }
 ?>
