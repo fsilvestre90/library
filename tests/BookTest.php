@@ -17,9 +17,9 @@
     {
         protected function tearDown()
         {
-            // Author::deleteAll();
+            Author::deleteAll();
             Book::deleteAll();
-            // Patron::deleteAll();
+            Patron::deleteAll();
             // Checkout::deleteAll();
         }
 

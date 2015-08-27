@@ -6,6 +6,7 @@
     */
 
     require_once "src/Author.php";
+    require_once "src/Book.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -17,8 +18,8 @@
         protected function tearDown()
         {
             Author::deleteAll();
-            // Book::deleteAll();
-            // Patron::deleteAll();
+            Book::deleteAll();
+            Patron::deleteAll();
             // Checkout::deleteAll();
         }
 
@@ -143,28 +144,32 @@
 
             $this->assertEquals([$test_author], $result);
         }
-        // THIS DOESNT WORK!!!!!!
-        // function testGetBooks()
-        // {
-        //     $author_name = "Murakami";
-        //     $test_author = new Author($author_name);
-        //     $test_author->save();
-        //
-        //     $title = "yur not a wizard harry";
-        //     $test_book = new Book($title);
-        //     $test_book->save();
-        //
-        //     $title = "rum diaries";
-        //     $test_book2 = new Book($title);
-        //     $test_book2->save();
-        //
-        //     $test_author->addBook($test_book);
-        //     $test_author->addBook($test_book2);
-        //     $result = $test_author->getBooks();
-        //
-        //     $this->assertEquals($test_book, $result);
-        //
-        // }
+
+        function testGetBooks()
+        {
+            //make an author
+            $author_name = "Murakami";
+            $test_author = new Author($author_name);
+            $test_author->save();
+
+            //wrote books!
+            $title = "yur not a wizard harry";
+            $test_book = new Book($title);
+            $test_book->save();
+
+            $title = "rum diaries";
+            $test_book2 = new Book($title);
+            $test_book2->save();
+            //give murakami books that he wrote!
+            $test_author->addBook($test_book);
+            $test_author->addBook($test_book2);
+
+            //TEST!!!!
+            $result = $test_author->getBooks();
+
+            $this->assertEquals([$test_book, $test_book2], $result);
+
+        }
     }
 
 

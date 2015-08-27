@@ -1,18 +1,18 @@
 <?php
     class Patron
     {
-        private $patron_id;
+        private $id;
         private $patron_name;
 
-        function __construct($patron_id, $patron_name)
+        function __construct($patron_name, $id = null)
         {
-            $this->patron_id = $patron_id;
+            $this->id = $id;
             $this->patron_name = $patron_name;
         }
 
-        function getPatronId()
+        function getId()
         {
-            return $this->patron_id;
+            return $this->id;
         }
 
         function getPatronName()
@@ -20,9 +20,9 @@
             return $this->patron_name;
         }
 
-        function setPatronId($newId)
+        function setId($newId)
         {
-            $this->patron_id = $newId;
+            $this->id = $newId;
         }
 
         function setPatronName($newPatronName)
@@ -32,32 +32,46 @@
 
         function save()
         {
-
+            $GLOBALS['DB']->exec("INSERT INTO patrons (patron_name) VALUES ('{$this->getPatronName()}');");
+            $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         static function getAll()
         {
-
+            $patrons_returned = $GLOBALS['DB']->query("SELECT * FROM patrons;");
+            $patrons = array();
+            foreach($patrons_returned as $patron){
+                $id = $patron['id'];
+                $patron_name = $patron['patron_name'];
+                $new_patron = new Patron($patron_name, $id);
+                array_push($patrons, $new_patron);
+            }
+            return $patrons;
         }
 
         static function find($searchId)
         {
-
+            $patrons_returned = Patron::getAll();
+            foreach($patrons_returned as $patron){
+                if ($searchId == $patron->getId()){
+                    return $patron;
+                }
+            }
         }
 
         static function deleteAll()
         {
-
+            $GLOBALS['DB']->exec("DELETE FROM patrons;");
         }
 
-        static function update()
+        function update()
         {
-
+            $GLOBALS['DB']->exec("UPDATE patrons SET patron_name = '{$this->getPatronName()}' WHERE id = {$this->getId()};");
         }
 
-        function deleteOne($searchId)
+        function deleteOne()
         {
-
+            $GLOBALS['DB']->exec("DELETE FROM patrons WHERE id = {$this->getId()};");
         }
     }
 ?>
