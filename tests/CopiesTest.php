@@ -6,7 +6,7 @@
 
     require_once "src/Book.php";
     require_once "src/Author.php";
-    require_once "src/Patron.php";
+    require_once "src/Copies.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -20,11 +20,20 @@
             Author::deleteAll();
             Book::deleteAll();
             Patron::deleteAll();
-            // Checkout::deleteAll();
+            Copies::deleteAll();
         }
 
         function testAddCopy()
         {
-            $book_name = "Marukai"
+            $book_name = "Marakami";
+            $new_book = new Book($book_name);
+            $new_book->save();
+
+            Copies::setCopies($new_book, 5);
+
+            $result = Copies::getCopies($new_book);
+
+            $this->assertEquals(5, $result);
         }
+    }
 ?>
