@@ -37,6 +37,11 @@
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
+        function addBook($book)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO authors_books (author_id, book_id) VALUES ({$book->getId()}, {$this->getId()});");
+        }
+
         static function getAll()
         {
             $returned_authors = $GLOBALS['DB']->query("SELECT * FROM authors;");
@@ -77,6 +82,23 @@
             $GLOBALS['DB']->exec("DELETE FROM authors WHERE id = {$this->getId()};");
         }
 
+        function getBooks()
+        {
+            $returned_books = $GLOBALS['DB']->query("SELECT books.* FROM books
+                                                    JOIN authors_books on (books.id = authors_books.books_id)
+                                                    JOIN authors on (authors.id = authors_books.author_id)
+                                                    WHERE authors.id = {$this->getId()};");
+            // CODE BREAKS HERE ^^ need to find out why returned books doesn't reutnr anything
+            $books = array();
+            foreach($returned_books as $book)
+            {
+                $id = $book['id'];
+                $title = $book['title'];
+                $new_book = new Book($title, $id);
+                array_push($books, $new_book);
+            }
+            return $books;
+                }
     }
 
 

@@ -6,6 +6,7 @@
     */
 
     require_once "src/Book.php";
+    require_once "src/Author.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -109,6 +110,24 @@
             $result = Book::getAll();
 
             $this->assertEquals([$test_book2], $result);
+        }
+
+        function testAddAuthor()
+        {
+            $book_name = "Yer not a wizard harry";
+            $test_book = new Book($book_name);
+            $test_book->save();
+
+            $author_name = "JK Rowling";
+            $test_author = new Author($author_name);
+            $test_author->save();
+
+            $test_book->addAuthor($test_author);
+
+            $result = $test_book->getAuthors();
+
+            $this->assertEquals($test_author, $result[0]);
+
         }
     }
 ?>

@@ -143,6 +143,28 @@
 
             $this->assertEquals([$test_author], $result);
         }
+        // THIS DOESNT WORK!!!!!!
+        // function testGetBooks()
+        // {
+        //     $author_name = "Murakami";
+        //     $test_author = new Author($author_name);
+        //     $test_author->save();
+        //
+        //     $title = "yur not a wizard harry";
+        //     $test_book = new Book($title);
+        //     $test_book->save();
+        //
+        //     $title = "rum diaries";
+        //     $test_book2 = new Book($title);
+        //     $test_book2->save();
+        //
+        //     $test_author->addBook($test_book);
+        //     $test_author->addBook($test_book2);
+        //     $result = $test_author->getBooks();
+        //
+        //     $this->assertEquals($test_book, $result);
+        //
+        // }
     }
 
 
